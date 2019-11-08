@@ -1,0 +1,27 @@
+char** dictionary = calloc((size_t) BUFFER_SIZE,(int)(sizeof(char) * MAX_WORD_SIZE));
+//    c = fgetc(fp);
+//    //Copy each line from the file until EOF is reached
+//    while(c != EOF){
+//        
+//        //  Reallocate if dictionary is filled
+//        if(index == dict_size){
+//            dict_size += BUFFER_SIZE;
+//            dictionary = realloc(dictionary, (int)(sizeof(char*) * dict_size));
+//        }
+//        
+//        if(c == '\n'){
+//            dictionary[index][len] = '\0';
+//            len = 0;
+//            index++;
+//        } 
+//        else {
+//            dictionary[index][len++] = c;
+//        }
+//        c = fgetc(fp);
+//    }
+
+
+
+while(fgets(dictionary[index], size, ) != NULL){}
+
+//    char* buffer = malloc((int)(sizeof(char) * MAX_WORD_SIZE));

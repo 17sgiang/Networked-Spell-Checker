@@ -1,0 +1,3 @@
+//This is here because editing the original makefile causes problems when trying to
+//run the project in NetBeans
+//The makefile in the MakerFiler folder is for compiling the project on the Linux server

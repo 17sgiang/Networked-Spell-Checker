@@ -20,31 +20,10 @@
 
 //  Declaration of constants or global variables
 const char error_message[30] = "An error has occurred";
-   
-const int MAX_WORD_SIZE = 64; //Longest word in major dictionary is 45 letters
-const int MAX_WORD_COUNT = 200000;
-//273,000 words in the Oxford dictionary, 171,476 in current use
-
+const int BUFFER_SIZE = 1024;
+const int MAX_WORD_SIZE = 64;
 //  Declaration of structs
-typedef struct {
-    char **log_buf;
-    int *job_buf;
-    int job_len, log_len;
-    int job_count, log_count;
-    int job_front;
-    int job_rear;
-    int log_front;
-    int log_rear;
-    pthread_mutex_t job_mutex, log_mutex;
-    pthread_cond_t job_cv_cs, job_cv_pd;
-    pthread_cond_t log_cv_cs, log_cv_pd;
-} buf;
 
-//typedef struct node{
-//    char* word[64];
-//    struct node* next;
-//    
-//} node;
 
 //------------------------------------------------------------------------//
 //                         FUNCTION DECLARATION                           //
@@ -58,34 +37,71 @@ typedef struct {
 
 int main(int argc, char** argv) {
     
-    //Open a file pointer to the word list and copy its contents
-    int word_count = 0;
-    char dictionary[MAX_WORD_COUNT][MAX_WORD_SIZE];
-//    char* buffer;
-    int buffer_size;
+    printf("1");
+    
+    //Open a file pointer to the dictionary and copy its contents
+    //to the dictionary string array
+//    const int BUFFER_SIZE = 1024;
+//    const int MAX_WORD_SIZE = 64;
+//    const char error_message[30] = "An error has occured";
+    
+    printf("2");
+    
+    char** dictionary = calloc((size_t) BUFFER_SIZE,(int)(sizeof(char) * MAX_WORD_SIZE));
+    char* buffer = malloc((int)(sizeof(char) * MAX_WORD_SIZE));
+    int index = 0;
+    int len = 0;
+    int c;
+    int dict_size = BUFFER_SIZE;
     
     FILE* fp = fopen("words-2.txt", "r");
     
-    //Error opening word list
+    //Error opening dictionary
     if(fp == NULL){
         printf("%s\n", error_message);
         printf("%s\n", "Failed to open dictionary file.");
         return (EXIT_FAILURE);
     }
-
-    //Dictate the max possible size required for the buffer
-    fseek(fp, 0, SEEK_END); //Moves the pointer to the end of the file
-    buffer_size = ftell(fp); //Sets buffer_size to the size of the file
-    fseek(fp, 0, SEEK_SET); //Bring the pointer back to the start
-    printf("Here\n");
-    
-    while(fgets(dictionary[word_count++], buffer_size, fp) != NULL){
-        printf("%s\n", dictionary[word_count-1]);
+    c = fgetc(fp);
+    //Copy each line from the file until EOF is reached
+    while(c != EOF){
+        
+        //  Reallocate if dictionary is filled
+        if(index == dict_size){
+            dict_size += BUFFER_SIZE;
+            dictionary = realloc(dictionary, (int)(sizeof(char*) * dict_size));
+        }
+        
+        if(c == '\n'){
+            dictionary[index][len] = '\0';
+            len = 0;
+            index++;
+        } else {
+            dictionary[index][len++] = c;
+        }
+        c = fgetc(fp);
     }
     
+//    while(fgets(buffer, MAX_WORD_SIZE, (FILE*)fp) != NULL){
+//        
+////        printf("%s\n", dictionary[index]);
+//        index++;
+//        //  Reallocate if dictionary is filled
+//        if(index == dict_size){
+//            dict_size += BUFFER_SIZE;
+//            dictionary = realloc(dictionary, (int)(sizeof(char*) * dict_size));
+//        }
+////        dictionary[index++] = buffer;
+////        strcpy(dictionary[index++], buffer);
+////        fflush(fp);
+//    }
     //Close the file pointer
     fclose(fp);
     
+    for(int i = 0; i < 10; i++){
+        printf("%s\n", dictionary[i]);
+        
+    }
     
     
     //Create queue for incoming socket descriptors
