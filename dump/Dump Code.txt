@@ -25,3 +25,20 @@ char** dictionary = calloc((size_t) BUFFER_SIZE,(int)(sizeof(char) * MAX_WORD_SI
 while(fgets(dictionary[index], size, ) != NULL){}
 
 //    char* buffer = malloc((int)(sizeof(char) * MAX_WORD_SIZE));
+
+//    while(fgets(dictionary[index], sizeof(dictionary[index]), fp) != NULL){
+        index++;
+//        fflush(fp);
+//    }
+
+
+
+char dictionary[MAX_WORD_COUNT][MAX_WORD_SIZE];
+//    char* buffer;
+    int buffer_size;
+    
+    FILE* fp = fopen("words-2.txt", "r");
+    
+    
+
+    
