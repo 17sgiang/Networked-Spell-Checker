@@ -8,9 +8,9 @@
 #
 #
 #############################################################################################################
-#																											#
+#																											  #
 #													Usage													#
-#																											#		
+#																											  #		
 #############################################################################################################
 #	
 #	The spellcheck program is meant to create a server which multiple clients can connect to and send words
@@ -29,58 +29,58 @@
 #
 #
 #############################################################################################################
-#																											#
-#												  Functions													#
-#																											#		
+#											  															      	#
+#									  			  Functions													#
+#										  															      		#		
 #############################################################################################################
 #	
-#	main()					Producer for the job_buf
-#							Saves the dictionary to memory									
-#							Creates and initializes the job_buf and log_buf
-#							Creates the worker threads and logger thread
-#							Opens a socket and waits on it for clients to connect
-#							Saves the client socket descriptors to a job_buf
+#	main()				  	Producer for the job_buf
+#						       	Saves the dictionary to memory									
+#						      	Creates and initializes the job_buf and log_buf
+#					      		Creates the worker threads and logger thread
+#				    	  		Opens a socket and waits on it for clients to connect
+#			    		  		Saves the client socket descriptors to a job_buf
 #							
 #
 #	buf_init()				Initializes the buffers and the variables inside of it
-#							Also holds a pointer to the dictionary
+#     							Also holds a pointer to the dictionary
 #
 #							
 #	buf_deinit()			Deinitializes the buffer	
 #
 #	
-#	buf_insert_log()		Inserts a spellcheck result into the log_buf
-#							For use by worker threads
+#	buf_insert_log()	Inserts a spellcheck result into the log_buf
+#							      For use by worker threads
 #
 #
-#	buf_remove_log()		Removes a spellcheck result from the log_buf
-#							For use by the logger thread
+#	buf_remove_log()	Removes a spellcheck result from the log_buf
+#							      For use by the logger thread
 #
 #
-#	buf_remove_job()		Removes a socket descriptor from the job_buf
-#							For use by the worker threads
+#	buf_remove_job()	Removes a socket descriptor from the job_buf
+#							      For use by the worker threads
 #
 #
 #	check_word()			Spellchecker function, returns an int value based on the result of the spellcheck
-#							"4747" is taken to be an exit code
-#								returns -1 if found, worker thread should change connection_up if returned
-#							For use by worker threads
+#		  	  		  		"4747" is taken to be an exit code
+#	  			  				returns -1 if found, worker thread should change connection_up if returned
+# 		  		  			For use by worker threads
 #							
 #
-#	trim_strings()			Removes the '\n' character from strings in the dictionary
+#	trim_strings()	  Removes the '\n' character from strings in the dictionary
 #
 #
-#	worker()				Consumer for the job_buf / Producer for the log_buf
-#							Function that the worker threads execute
-#							Gets a socket descriptor from the job_buf
-#							Receives words from the client
-#							Puts received words through the spellcheck function and echoes the result
+#	worker()	  			Consumer for the job_buf / Producer for the log_buf
+#							      Function that the worker threads execute
+#						  	    Gets a socket descriptor from the job_buf
+#						    	  Receives words from the client
+#						      	Puts received words through the spellcheck function and echoes the result
 #							
 #
-#	logger()				Consumer for the log_buf
-#							Function that the logger thread executes
-#							Gets spellcheck results from log_buf
-#							Pushes the results onto an output file
+#	logger()		  		Consumer for the log_buf
+#		  			  	  	Function that the logger thread executes
+#			  	  		  	Gets spellcheck results from log_buf
+#				  		    	Pushes the results onto an output file
 #		
 #############################################################################################################
 #																											#
